@@ -8,10 +8,30 @@ const Home = () => {
   const onUserChangedText = (event) => {
     setUserInput(event.target.value);
   };
+  const [apiOutput, setApiOutput] = useState('')
+  const [isGenerating, setIsGenerating] = useState(false)
+
+  const callGenerateEndpoint = async () => {
+    setIsGenerating(true);
+
+    const response = await fetch('/api/generate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userInput }),
+    });
+
+    const data = await response.json();
+    const { output } = data;
+
+    setApiOutput(`${output.text}`);
+    setIsGenerating(false);
+  }
   return (
     <div className="root">
       <Head>
-        <title>GPT-3 Writer | buildspace</title>
+        <title>BookRec</title>
       </Head>
       <div className="container">
         <div className="header">
@@ -19,19 +39,35 @@ const Home = () => {
             <h1>A Librarian, on your browser</h1>
           </div>
           <div className="header-subtitle">
-            <h2>Instantly get book reccomendations based on your previous reading list.</h2>
+            <h2>Instantly get book reccomendations.</h2>
+            <h2>Enter in the name of your favourite author and give it a spin!</h2>
           </div>
         </div>
         <div className="prompt-container">
-          <textarea placeholder="start typing here" className="prompt-box" value={userInput}
+          <textarea placeholder="J.K Rowling or Naval Ravikant" className="prompt-box" value={userInput}
             onChange={onUserChangedText} />
           <div className="prompt-buttons">
-            <a className="generate-button" onClick={null}>
+            <a
+              className={isGenerating ? 'generate-button loading' : 'generate-button'}
+              onClick={callGenerateEndpoint}
+            >
               <div className="generate">
-                <p>Generate</p>
+                {isGenerating ? <span className="loader"></span> : <p>Generate</p>}
               </div>
             </a>
           </div>
+          {apiOutput && (
+            <div className="output">
+              <div className="output-header-container">
+                <div className="output-header">
+                  <h3>Output</h3>
+                </div>
+              </div>
+              <div className="output-content">
+                <p>{apiOutput}</p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <div className="badge-container grow">

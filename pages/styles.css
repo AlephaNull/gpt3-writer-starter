@@ -117,9 +117,11 @@ textarea {
     font-family: 'Manrope', sans-serif;
 }
 
-
+.prompt-box {
+  height: 2em;
+}
 .prompt-box:focus {
-    border-color:rgba(255, 255, 255, 0.75)
+    border-color:rgba(255, 255, 255, 0.75);
 }
 
 
@@ -304,7 +306,7 @@ textarea {
     letter-spacing: 0px;
     line-height: 1.4em;
     text-align: start;
-    color: #ffffff;
+    color: #f5e2fd;
     text-decoration: none;
     text-transform: none;
     margin: 0;
@@ -323,7 +325,7 @@ textarea {
 .output-content p {
     text-align: center;
     white-space: pre-line;
-    color: rgba(255, 255, 255, 0.5);
+    color: white;
 }
 
 @media (min-width: 810px) and (max-width: 1199px) {
